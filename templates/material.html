@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="navbar">
+  <h3>South Liberty Public Library</h3>
+  <a href="{{ url_for('index')}}"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a href="{{ url_for('materials')}}"><i class="fas fa-book"></i> Materials</a>
+  <a href="{{ url_for('people')}}"><i class="fa fa-fw fa-user"></i> Patrons</a>
+  <a href="{{ url_for('checkout')}}"><i class="fas fa-cart-plus"></i> Checkout</a>
+  <div class="search-container">
+    <form action="/searchmaterials" method="POST">
+      <input type="text" placeholder="Search Materials" name="search_string">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+</div>
+
+  <h4>Material Details</h4>
+
+{% with messages = get_flashed_messages() %}
+ {% if messages %}
+ <div class="alert alert-warning alert-dismissible fade show" role="alert" id="flash">
+   {% for message in messages %}
+   <strong>Alert!</strong> {{ message }}
+   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+   </button>
+   {% endfor %}
+   {% endif %}
+   {% endwith %}
+ </div>
+<br>
+{% if form %}
+  <form method="POST", action="">
+
+<table class = "table table-striped" id="materialsdetails">
+  <thead>
+      <tr>
+          <th>Material ID</th>
+          <th>Title</th>
+          <th>Genre</th>
+          <th>Author</th>
+          <th>ISBN</th>
+          <th>Date Added</th>
+          <th>Last Modified</th>
+
+      </tr>
+  </thead>
+
+
+  <tbody>
+    <tr>
+      <td>{{ form.MaterialID.label }} {{ form.MaterialID }}</td>
+      <td>{{ form.Title.label }} {{ form.Title }}</td>
+      <td>{{ form.Genre.label }} {{ form.Genre }}</td>
+      <td>{{ form.Author.label }} {{ form.Author }}</td>
+      <td>{{ form.ISBN.label }} {{ form.ISBN }}</td>
+      <td>{{ form.DateAdded.label }} {{ form.DateAdded }}</td>
+      <td>{{ form.LastModified.label }} {{ form.LastModified }}</td>
+
+  </tr>
+</tbody>
+
+    <input type="submit" formaction="{{url_for('update_material', MaterialID=form.MaterialID)}}" value="Update">
+    <input type="submit" formaction="{{url_for('delete_material', MaterialID=form.MaterialID)}}" value="Delete">
+
+
+
+  </form>
+{% endif %}
+{% endblock %}
